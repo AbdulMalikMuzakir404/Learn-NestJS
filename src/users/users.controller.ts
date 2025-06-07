@@ -1,24 +1,22 @@
 import {
-  Controller,
-  Delete,
-  Get,
-  Param,
-  Patch,
-  Post,
-  Put,
-  Query,
   Body,
+  Controller,
+  DefaultValuePipe,
+  Get,
   Headers,
   Ip,
+  Param,
   ParseIntPipe,
-  DefaultValuePipe,
+  Post,
+  Query,
 } from '@nestjs/common';
 
 @Controller('users')
 export class UsersController {
-  @Get('/:id')
+  @Get(['', ':id'])
   public getUsers(
-    @Param('id', ParseIntPipe) id: number | undefined,
+    @Param('id', new DefaultValuePipe(undefined), ParseIntPipe)
+    id: number | undefined,
     @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit: number,
     @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number,
   ) {
