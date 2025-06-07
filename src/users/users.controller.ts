@@ -10,6 +10,7 @@ import {
   Post,
   Query,
 } from '@nestjs/common';
+import { CreateUserDto } from '../dtos/create-user.dto';
 
 @Controller('users')
 export class UsersController {
@@ -27,7 +28,7 @@ export class UsersController {
 
   @Post()
   public createUsers(
-    @Body() request: any,
+    @Body() request: CreateUserDto,
     @Headers() headers: any,
     @Ip() ip: any,
   ) {
