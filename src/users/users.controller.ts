@@ -10,20 +10,20 @@ import {
   Post,
   Query,
 } from '@nestjs/common';
-import { CreateUserDto } from '../dtos/create-user.dto';
+import { CreateUserDto } from './dtos/create-user.dto';
+import { GetUserParamDto } from './dtos/get-user-param.dto';
+import { UsersService } from './providers/users.service';
 
 @Controller('users')
 export class UsersController {
+  constructor(private readonly usersService: UsersService) {}
   @Get(['', ':id'])
   public getUsers(
-    @Param('id', new DefaultValuePipe(undefined), ParseIntPipe)
-    id: number | undefined,
+    @Param() getUserParamDto: GetUserParamDto,
     @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit: number,
     @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number,
   ) {
-    console.log(limit);
-    console.log(page);
-    return 'You sent a get request to users endpoint';
+    return this.usersService.findAll(getUserParamDto, limit, page);
   }
 
   @Post()
